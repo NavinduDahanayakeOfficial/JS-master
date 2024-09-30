@@ -1,5 +1,6 @@
-import { type SchemaTypeDefinition } from 'sanity'
+import resource from "./resource.schema";
+import resourcePlaylist from "./resource-playlist.schema";
 
-export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [],
-}
+const schemas = [resource, resourcePlaylist];
+
+export default schemas;
