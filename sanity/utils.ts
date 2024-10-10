@@ -1,3 +1,5 @@
+import qs from "query-string";
+
 interface BuildQueryParams {
    type: string;
    query: string;
@@ -20,9 +22,29 @@ export function buildQuery(params: BuildQueryParams) {
    const offset = (page - 1) * perPage;
    const limit = perPage;
 
-   if(conditions.length > 1){
-    return `${conditions[0]} && (${conditions.slice(1).join(' && ')})][${offset}...${limit}]`
-   } else{
-    return `${conditions[0]}][${offset}...${limit}]`
+   if (conditions.length > 1) {
+      return `${conditions[0]} && (${conditions.slice(1).join(" && ")})][${offset}...${limit}]`;
+   } else {
+      return `${conditions[0]}][${offset}...${limit}]`;
    }
+}
+
+interface UrlQueryParams {
+   params: string;
+   key: string;
+   value: string | null;
+}
+
+export function formUrlQuery({ params, key, value }: UrlQueryParams) {
+   const currentUrl = qs.parse(params);
+
+   currentUrl[key] = value;
+
+   return qs.stringifyUrl(
+      {
+         url: window.location.pathname,
+         query: currentUrl,
+      },
+      { skipNull: true }
+   );
 }
