@@ -13,7 +13,6 @@ const Filters = () => {
    const router = useRouter();
 
    const handleFilter = (link: string) => {
-
       let newUrl = "";
 
       if (active === link) {
@@ -21,8 +20,7 @@ const Filters = () => {
 
          newUrl = formUrlQuery({
             params: searchParams.toString(),
-            key: "category",
-            value: null,
+            keysToRemove: ["category"],
          });
       } else {
          setActive(link);
