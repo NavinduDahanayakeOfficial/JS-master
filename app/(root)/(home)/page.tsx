@@ -7,16 +7,13 @@ import React from "react";
 
 export const revalidate = 900;
 
-interface Props{
-   searchParams : { [key: string] : string | undefined}
+interface Props {
+   searchParams: { [key: string]: string | undefined };
 }
 
-const Page = async ({searchParams}: Props) => {
-
-   console.log("searchParam",searchParams)
-
+const Page = async ({ searchParams }: Props) => {
    const resources = await getResources({
-      query: "",
+      query: searchParams?.query || "",
       category: searchParams?.category || "",
       page: "1",
    });
@@ -34,21 +31,25 @@ const Page = async ({searchParams}: Props) => {
          </section>
          <Filters />
          <section className="flex-center mt-6 w-full flex-col sm:mt-20">
-            <Header/>
+            <Header />
             <div className="mt-12 flex w-full flex-wrap justify-center gap-16 sm:justify-start">
-              { resources?.length>0 ? (resources.map   ((resource:any) => {
-                  return  <ResourceCard
-                     key={resource._id}
-                     title={resource.title}
-                     id={resource._id}
-                     image={resource.image}
-                     downloadNumber={resource.views}
-                  />
-                  
-                })): (
-                  <p className="body-regular text-white-400 ">No Resource Found</p>
-                )
-              }
+               {resources?.length > 0 ? (
+                  resources.map((resource: any) => {
+                     return (
+                        <ResourceCard
+                           key={resource._id}
+                           title={resource.title}
+                           id={resource._id}
+                           image={resource.image}
+                           downloadNumber={resource.views}
+                        />
+                     );
+                  })
+               ) : (
+                  <p className="body-regular text-white-400 ">
+                     No Resource Found
+                  </p>
+               )}
             </div>
          </section>
       </main>
