@@ -8,6 +8,28 @@ interface GetResourcesParams {
    page: string;
 }
 
+export const getResourcePlaylist = async () => {
+   try {
+      const resourcePlaylist =
+         await readClient.fetch(groq`*[_type == "resourcePlayList"]{
+            _id,
+            title,
+            resources[0...6]->{
+               _id,
+               title,
+               downloadLink,
+               "image": poster.asset -> url,
+               views,
+               category
+            } 
+         }`);
+
+      return resourcePlaylist;
+   } catch (error) {
+      console.log(error);
+   }
+};
+
 export const getResources = async (params: GetResourcesParams) => {
    const { query, category, page } = params;
 
